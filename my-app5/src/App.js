@@ -6,6 +6,11 @@ import Produto from "./Produto";
   const [produto, setProduto] = useState(null)
   
   React.useEffect(() => {
+    const produtoLocal = window.localStorage.getItem('produto');
+    if(produtoLocal !== null) setProduto(produtoLocal)
+  }, [])
+
+  React.useEffect(() => {
     if(produto !== null){ window.localStorage.setItem('produto', produto)
   }}, [produto])
 
