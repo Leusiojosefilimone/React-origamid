@@ -1,26 +1,20 @@
 import React, {useState} from "react";
 import Button from "./Button";
 import Produto from "./Produto";
+import UseLocalStorage from "./useLocalStorage";
 
- function App() {
-  const [produto, setProduto] = useState(null)
-  
-  React.useEffect(() => {
-    const produtoLocal = window.localStorage.getItem('produto');
-    if(produtoLocal !== null) setProduto(produtoLocal)
-  }, [])
 
-  React.useEffect(() => {
-    if(produto !== null){ window.localStorage.setItem('produto', produto)
-  }}, [produto])
+function App() {
+  const [produto, setProduto] = UseLocalStorage('produto','');
 
-  function handleClick (text) { 
+  function handleClick(text){
+    console.log(text)
     setProduto(text)
-     
   }
+  console.log(produto)
     return (
     <div>
-      <h2>Preferecia:<span>{produto}</span></h2>
+      <h2>Preferecia:{produto}</h2>
       <Button func={handleClick} text='smartphone'/>
       <Button func={handleClick} text='notebook'/>
       <Produto produto={produto}/>
