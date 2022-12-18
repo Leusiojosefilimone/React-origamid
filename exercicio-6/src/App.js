@@ -6,7 +6,7 @@ import React from "react";
 
 function App() {
   const [produto, setProduto] = UseLocalStorage('produto','');
-  const {request, data, loading} = UseFetch()
+  const {request, data, loading, erro} = UseFetch()
 
   function handleClick(text){
     setProduto(text)
@@ -15,6 +15,8 @@ function App() {
   React.useEffect(() => {
     request(`https://ranekapi.origamid.dev/json/api/produto/`)
   },[])
+
+  if(erro) return <p> {erro} </p>
   if(loading) return <p>Caregando...</p>
   if(data === null) return null;
     return (
