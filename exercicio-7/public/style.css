@@ -81,6 +81,7 @@ button {
   background: var(--color);
   color: var(--color-dark);
   padding: 0.8rem 1.6rem;
+  margin: 5px;
 }
 
 button:hover,

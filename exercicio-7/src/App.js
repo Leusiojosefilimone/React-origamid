@@ -1,63 +1,94 @@
+import React from "react";
+const formFields =[
+  {
+    id:'nome',
+    label:'Nome',
+    type:'text'
+  },
 
-const Luana = {
-  cliente: 'Luana',
-  idade: 27,
-  compras: [
-    {nome: 'notebook', preco: 2500 },
-    {nome: 'Geladeira', preco: 3000 },
-    {nome: 'Smartphone', preco: 1500 }
-  ],
-  ativa: true
-}
+  {
+    id:'email',
+    label:'Email',
+    type:'email'
+  },
 
-const Mario = {
-  cliente: 'Mario',
-  idade: 31,
-  compras: [
-    {nome: 'notebook', preco: 2500},
-    {nome: 'Geladeira', preco: 3000},
-    {nome: 'Smartphone', preco: 1500 },
-    {nome: 'Guitarra', preco: 3500}
-  ],
-  ativa: false
-}
-const estiloAtivo={
-  fontWeight: 'bold',
-  color: 'green'
-}
-const estiloInativo={
-  fontWeight: 'bold',
-  color: 'red'
-}
+  {
+    id:'senha',
+    label:'Senha',
+    type:'password'
+  },
 
-function DescreveClientes ({Cliente}) {
-  let preco =  Cliente.compras.map((compra) => compra.preco)
-  let totalGasto = 0;
+  {
+    id:'cep',
+    label:'Cep',
+    type:'text'
+  },
+  {
+    id:'rua',
+    label:'Rua',
+    type:'text'
+  },
+  {
+    id:'bairro',
+    label:'Bairro',
+    type:'text'
+  },
+  {
+    id:'cidade',
+    label:'Cidade',
+    type:'text'
+  },
+  {
+    id:'estado',
+    label:'Estado',
+    type:'text'
+  }
+]
 
-  for (let i = 0; i < preco.length; i++) {
-    totalGasto += preco[i];  
-  } 
-  
+
+function App() {
+  const [response, setResponse] = React.useState(null)
+  const [form, setForm]= React.useState({
+    nome:'',
+    email:'',
+    senha:'',
+    cep:'',
+    numero:'',
+    rua:'',
+    bairro:'',
+    cidade:'',
+    estado:'',
+  })
+
+  function handleChange({target}){
+    const {id, value}= target;
+    setForm({...form, [id]: value})
+  }
+
+  function handleSubmit(event){
+    event.preventDefault();
+    fetch('https://ranekapi.origamid.dev/json/api/usuario',{
+      method:'POST',
+      headers:{
+       'Content-Type': 'aplication/json',
+      },
+      body: JSON.stringify(form),
+    }).then((res) => setResponse(res))
+
+  }
+
   return (
-      <>
-      <p>Nome: {Cliente.cliente}</p>
-      <p>idade: {Cliente.idade}</p>
-      <p>Situacao: 
-        <span style={Cliente.ativa === true ? estiloAtivo : estiloInativo}>  
-          {Cliente.ativa === true ? ' Ativa' : ' Inativa'}
-        </span> </p>
-        <p>Total Gasto: {totalGasto}</p>
-        <p>{totalGasto > 10000 ? 'Voce esta gastando muito' : ''}</p>
-    </>
-  )
-}
+   <form onSubmit={handleSubmit}>
+    {formFields.map(({id, type, label}) => (
+      <div>
+        <label htmlFor={id}>{label}</label>
+        <input type={type} id={id}  onChange={handleChange}/>
+      </div>
+    ))}
+      {response && response.ok && <p>Formulario enviado</p>}
+     <button>Enviar</button>
 
-
-function App( {Nome = Mario}) {
-  return (
-   <>
-    <DescreveClientes Cliente={Nome}/>
-   </>
+   </form>
   )
 
   
