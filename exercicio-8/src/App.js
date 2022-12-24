@@ -4,6 +4,7 @@ import React from "react";
 
 function App() {
   const [cores, setCores] = React.useState(['vermelho'])
+  const coresArray = ['azul', 'roxo', 'lanraja', 'verde', 'vermelho', 'cinza', 'amarelo']
 
   function handleChange({target}){
     if(target.checked){
@@ -16,27 +17,23 @@ function App() {
    return cores.includes(color)
   }
   
-  return (
-  <form>
-    <label><input
-       type='checkbox'
-        value='azul'
-        checked={checkColor('azul')}
-        onChange={handleChange}/>
-        azul
-    </label>
+  return <form>  { coresArray.map((cor) => {
+   return <label>
+   <input
+     type='checkbox'
+     value={cor}
+     checked={checkColor(cor)}
+     onChange={handleChange}/>
+     {cor}
+ </label>
+  })}
+  </form>
 
-    <label><input
-       type='checkbox'
-        value='vermelho'
-        checked={checkColor('vermelho')}
-        onChange={handleChange}/>
-        vermelho
-    </label>
-   
-  </form>)
+  }
+ 
+  
 
   
-}
+
 
 export default App;
