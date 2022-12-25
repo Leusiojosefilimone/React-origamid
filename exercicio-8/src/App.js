@@ -1,7 +1,5 @@
 import React from "react";
 
-
-
 function App() {
   const [cores, setCores] = React.useState(['vermelho'])
   const coresArray = ['azul', 'roxo', 'lanraja', 'verde', 'vermelho', 'cinza', 'amarelo']
@@ -18,7 +16,7 @@ function App() {
   }
   
   return <form>  { coresArray.map((cor) => {
-   return <label>
+   return <label style={{textTransform: 'capitalize'}}>
    <input
      type='checkbox'
      value={cor}
