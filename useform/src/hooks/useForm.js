@@ -4,6 +4,14 @@ const types = {
   cep : {
     regex: /^\d{5}-?\d{3}$/,
     menssage: 'cep invalido'
+  },
+  email: {
+    regex: /^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/,
+    menssage:'email invalido'
+  },
+  password: {
+    regex: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/,
+    menssage: 'palavra chave incorrecta'
   }
 }
 
@@ -15,7 +23,7 @@ const useForm = (type) => {
       if(value.length === 0){
         setError('preencha um valor');
         return false
-      }else if(!types[type].regex.test(value)){
+      }else if(types[type] && !types[type].regex.test(value)){
         setError(types[type].menssage);
         return false
       }else{
