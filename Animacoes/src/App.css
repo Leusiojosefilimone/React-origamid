@@ -1,0 +1,21 @@
+.animeLeft{
+margin: auto;
+padding:20px;
+border: 1px solid white;
+width:600px;
+background: #444;
+text-align: center;
+color: #fff;
+border-radius: 10px;
+opacity: 0;
+transform: translateY(-20px);
+animation: animeLeft 0.5s forwards;
+
+}
+
+@keyframes animeLeft {
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
