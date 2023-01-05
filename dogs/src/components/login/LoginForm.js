@@ -4,23 +4,22 @@ import { Link } from 'react-router-dom'
 const LoginForm = () => {
     const [username, setUsername] = React.useState('')
     const [password, setPassword]= React.useState('')
-
-  async function handleSubmit (event){
+ function handleSubmit (event){
         event.preventDefault()
-         await fetch('https://dogsapi.origamid.dev/json/jwt-auth/v1token', {
+         fetch('https://dogsapi.origamid.dev/json/jwt-auth/v1/token',{
             method: 'POST',
             headers:{
                 'Content-Type': 'aplication/json',
             },
-            body: JSON.stringify({username, password}),
-        }).then(res =>  console.log(res));
-        
-        
+            body: JSON.stringify({ username, password }),
+        }).then(res =>  {
+          return res.json()}).then((json) => console.log(json))
     }
+
   return (
     <div>
         <h1>Login</h1>
-
+          
         <form action='' onSubmit={handleSubmit}>
             <input 
             type='text'
