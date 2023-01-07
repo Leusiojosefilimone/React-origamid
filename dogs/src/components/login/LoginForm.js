@@ -1,37 +1,55 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Button from '../forms/Button'
+import Input from '../forms/Input'
+import useForm from '../../Hooks/useForm'
+import { TOKEN_POST, USER_GET } from '../../Api'
 
 const LoginForm = () => {
-    const [username, setUsername] = React.useState('')
-    const [password, setPassword]= React.useState('')
- function handleSubmit (event){
-        event.preventDefault()
-         fetch('https://dogsapi.origamid.dev/json/jwt-auth/v1/token',{
-            method: 'POST',
-            headers:{
-                'Content-Type': 'aplication/json',
-            },
-            body: JSON.stringify({ username, password }),
-        }).then(res =>  {
-          return res.json()}).then((json) => console.log(json))
+    const username = useForm('');
+    const password= useForm('');
+
+    async function getUser(token){
+      const {url, options} = USER_GET(token)
+      const response = await fetch(url, options);
+      const json = await response.json();
+      console.log(json)
     }
+
+async function handleSubmit (event){
+  event.preventDefault()
+   if (username.validate() && password.validate()){
+    const{url, options}= TOKEN_POST({
+      username: username.value,
+      password: password.value,
+    })
+        
+      const response =await fetch(url, options)
+      const json = await response.json()
+      window.localStorage.setItem('token', json.token);
+      getUser(json.token);
+    }}
 
   return (
     <div>
         <h1>Login</h1>
-          
+
         <form action='' onSubmit={handleSubmit}>
-            <input 
-            type='text'
-            value={username}
-            onChange={({target}) => setUsername(target.value)}/>
+           <Input 
+           type='text' 
+           label='Name'
+           name='username'
+           {...username}
+           />
 
-            <input 
-            type='password'
-            value={password}
-            onChange={({target}) => setPassword(target.value)}/>
+           <Input 
+           type='password' 
+           label='Password'
+           name='password'
+           {...password}/>
 
-            <button>Enviar</button>
+
+          <Button>Enviar</Button>
         </form>
 
         <Link to='/login/create'>Cadastro</Link>
